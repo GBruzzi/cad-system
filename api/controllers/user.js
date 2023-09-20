@@ -14,48 +14,67 @@ export const getUsers = async (_, res) => {
 };
 
 
-export const addUser = (req, res) => {
-  const q =
-    "INSERT INTO usuarios(`name`, `email`, `phone`, `data_nascimento`) VALUES(?)";
+export const addUser = async (req, res) => {
+  try {
 
-  const values = [
-    req.body.name,
-    req.body.email,
-    req.body.phone,
-    req.body.data_nascimento,
-  ];
+    const q =
+      "INSERT INTO usuarios(name, email, phone, data_nascimento) VALUES($1, $2, $3, $4)";
 
-  client.query(q, [values], (err) => {
-    if (err) return res.json(err);
+    const values = [
+      req.body.name,
+      req.body.email,
+      req.body.phone,
+      req.body.data_nascimento,
+    ];
+
+    // Use o cliente PostgreSQL para executar a consulta
+    await client.query(q, values);
 
     return res.status(200).json("Usuário criado com sucesso.");
-  });
+  } catch (err) {
+    console.error("Erro ao adicionar usuário:", err);
+    return res.status(500).json("Ocorreu um erro ao adicionar o usuário.");
+  }
 };
 
-export const updateUser = (req, res) => {
-  const q =
-    "UPDATE usuarios SET `name` = ?, `email` = ?, `phone` = ?, `data_nascimento` = ? WHERE `id` = ?";
 
-  const values = [
-    req.body.name,
-    req.body.email,
-    req.body.phone,
-    req.body.data_nascimento,
-  ];
+export const updateUser = async (req, res) => {
+  try {
 
-  client.query(q, [...values, req.params.id], (err) => {
-    if (err) return res.json(err);
+    const q =
+      "UPDATE usuarios SET name = $1, email = $2, phone = $3, data_nascimento = $4 WHERE id = $5";
+
+    const values = [
+      req.body.name,
+      req.body.email,
+      req.body.phone,
+      req.body.data_nascimento,
+      req.params.id,
+    ];
+
+    // Use o cliente PostgreSQL para executar a consulta
+    await client.query(q, values);
 
     return res.status(200).json("Usuário atualizado com sucesso.");
-  });
+  } catch (err) {
+    console.error("Erro ao atualizar usuário:", err);
+    return res.status(500).json("Ocorreu um erro ao atualizar o usuário.");
+  }
 };
 
-export const deleteUser = (req, res) => {
-  const q = "DELETE FROM usuarios WHERE `id` = ?";
 
-  client.query(q, [req.params.id], (err) => {
-    if (err) return res.json(err);
+export const deleteUser = async (req, res) => {
+  try {
+    const q = "DELETE FROM usuarios WHERE id = $1";
+
+    const values = [req.params.id];
+
+    // Usar o cliente PostgreSQL para executar a consulta
+    await client.query(q, values);
 
     return res.status(200).json("Usuário deletado com sucesso.");
-  });
+  } catch (err) {
+    console.error("Erro ao deletar usuário:", err);
+    return res.status(500).json("Ocorreu um erro ao deletar o usuário.");
+  }
 };
