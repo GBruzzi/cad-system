@@ -46,7 +46,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     if (onEdit) {
       const user = ref.current;
 
-      user.nome.value = onEdit.nome;
+      user.name.value = onEdit.name;
       user.email.value = onEdit.email;
       user.fone.value = onEdit.fone;
       user.data_nascimento.value = onEdit.data_nascimento;
@@ -59,7 +59,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     const user = ref.current;
 
     if (
-      !user.nome.value ||
+      !user.name.value ||
       !user.email.value ||
       !user.fone.value ||
       !user.data_nascimento.value
@@ -70,7 +70,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     if (onEdit) {
       await axios
         .put("http://localhost:8800/" + onEdit.id, {
-          nome: user.nome.value,
+          name: user.name.value,
           email: user.email.value,
           fone: user.fone.value,
           data_nascimento: user.data_nascimento.value,
@@ -80,7 +80,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     } else {
       await axios
         .post("http://localhost:8800", {
-          nome: user.nome.value,
+          name: user.name.value,
           email: user.email.value,
           fone: user.fone.value,
           data_nascimento: user.data_nascimento.value,
@@ -89,7 +89,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         .catch(({ data }) => toast.error(data));
     }
 
-    user.nome.value = "";
+    user.name.value = "";
     user.email.value = "";
     user.fone.value = "";
     user.data_nascimento.value = "";
@@ -102,7 +102,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
         <Label>Nome</Label>
-        <Input name="nome" />
+        <Input name="name" />
       </InputArea>
       <InputArea>
         <Label>E-mail</Label>
