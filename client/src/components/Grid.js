@@ -66,7 +66,7 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
         <Tr>
           <Th>Nome</Th>
           <Th>Email</Th>
-          <Th onlyWeb>phone</Th>
+          <Th onlyWeb>Phone</Th>
           <Th></Th>
           <Th></Th>
         </Tr>
